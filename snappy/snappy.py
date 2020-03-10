@@ -5,7 +5,7 @@ import click
 session = boto3.Session(profile_name='snappy')
 ec2 = session.resource('ec2')
 
-def filter_intsances(project):
+def filter_instances(project):
     instances = []
 
     if project:
@@ -28,10 +28,13 @@ def snapshots():
 @snapshots.command('list')
 @click.option('--project', default=None,
               help="Only snapshots for project (tag Project:<name>)")
-def list_snapshots(project):
+@click.option('--all', 'list_all', default=None, is_flag=True,
+              help='List all snapshots for each volume, not only the most recnt one.' )
+
+def list_snapshots(project, list_all):
     "List EC2 snapshots"
 
-    instances = filter_intsances(project)
+    instances = filter_instances(project)
     for instance in instances:
         for vol in instance.volumes.all():
             for snap in vol.snapshots.all():
@@ -43,6 +46,7 @@ def list_snapshots(project):
                     snap.progress,
                     snap.start_time.strftime('%c')
                 )))
+                if snap.state == 'completed' and not list_all: break
     return
 
 
@@ -56,7 +60,7 @@ def volumes():
 def list_volumes(project):
     "List EC2 volumes"
 
-    instances = filter_intsances(project)
+    instances = filter_instances(project)
 
     for instance in instances:
         for vol in instance.volumes.all():
@@ -111,7 +115,7 @@ def create_snapshots(project):
 def list_instances(project):
     "List EC2 instances"
 
-    instances = filter_intsances(project)
+    instances = filter_instances(project)
 
     for instance in instances:
         tags = { t['Key']: t['Value'] for t in instance.tags or [] }
@@ -157,7 +161,7 @@ def stop_intances(project):
 def start_intances(project):
     "Start EC2 instances"
 
-    instances = filter_intsances(project)
+    instances = filter_instances(project)
 
     for i in instances:
         print('Starting {0}...'.format(i.id))
