@@ -149,7 +149,7 @@ def stop_intances(project):
     #     instances = ec2.instances.filter(Filters=filters)
     # else:
     #     instances = ec2.instances.all()
-    instances = filter_intsances(project)
+    instances = filter_instances(project)
 
     for i in instances:
         print('Stopping {0}...'.format(i.id))
