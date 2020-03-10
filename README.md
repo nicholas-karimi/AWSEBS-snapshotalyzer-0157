@@ -13,8 +13,10 @@ snappy uses the configuration file created by AWS cli . eg.
 
 ## Running
 
-`pipenv run snappy/snappy.py <command>
+`pipenv run snappy/snappy.py <command> <subcommand>
 <--project=PROJECT>`
 
 *command* is list, start, stop
+*command* is volume, instances, or snapshop
+*subcommand* depends on command 
 *project* is optional
