@@ -8,7 +8,7 @@ setup(
     description='SanpshotAlyzer 0157 is a tool that manages AWS EC2 snapshots',
     license='GPLV3+',
     packages=['snappy'],
-    url='https://github.com/Karimi254/AWSEBS-snapshotalyzer-0157',
+    url='https://github.com/nicholas-karimi/AWSEBS-snapshotalyzer-0157,
     install_requires=[
         'click',
         'boto3'
